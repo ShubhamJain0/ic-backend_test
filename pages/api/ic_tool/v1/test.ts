@@ -7,12 +7,12 @@ import { formatError } from "../../../../lib/helpers/errors";
 
 //@ToDo: Add auth token system
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  await NextCors(req, res, {
-    // Options
-    methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
-    origin: "http://localhost:5000",
-    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-  });
+  // await NextCors(req, res, {
+  //   // Options
+  //   methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
+  //   origin: "http://localhost:5000",
+  //   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+  // });
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method Not Allowed" });
   }
