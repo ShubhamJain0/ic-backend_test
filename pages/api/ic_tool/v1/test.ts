@@ -25,10 +25,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       message: "Success",
     });
   } catch (e: any) {
-    const errResp = formatError(500, "Something went wrong", "Test", e);
-    return res.status(errResp.status).json({
-      message: errResp.message,
-      cause: errResp.cause,
+    // const errResp = formatError(500, "Something went wrong", "Test", e);
+    return res.status(500).json({
+      message: e?.message || "default error",
+      cause: e?.cause || "",
     });
   }
 };
