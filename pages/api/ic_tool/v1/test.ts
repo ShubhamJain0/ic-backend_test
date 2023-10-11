@@ -1,9 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import clientPromise from "../../../../lib/mongodb";
-import { checkIfEmailExist, hashPassword } from "../../../../lib/helpers";
 import NextCors from "nextjs-cors";
-import { generateJWTToken } from "../../../../lib/helpers/jwt";
-import { formatError } from "../../../../lib/helpers/errors";
 
 //@ToDo: Add auth token system
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -25,10 +21,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       message: "Success",
     });
   } catch (e: any) {
-    const errResp = formatError(500, "Something went wrong", "Test", e);
-    return res.status(errResp.status).json({
-      message: errResp.message,
-      cause: errResp.cause,
+    // const errResp = formatError(500, "Something went wrong", "Test", e);
+    return res.status(500).json({
+      message: e,
+      cause: e,
     });
   }
 };
