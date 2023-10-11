@@ -25,41 +25,41 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const collectionListResponse = await got.get(
       `https://api.webflow.com/beta/sites/${siteId}/collections`,
       {
-        responseType: "json",
+        // responseType: "json",
         headers: {
           "content-type": "application/json",
-          Authorization: `Bearer ${userSiteInfo.access_token}`,
+          Authorization: `Bearer ${userSiteInfo?.access_token}`,
         },
       }
     );
 
-    const collectionsList = collectionListResponse.body;
-    console.log("collections", collectionsList.collections);
+    const collectionsList: any = collectionListResponse.body;
+    console.log("collections", collectionsList);
     let collectionImageList = [];
     for (let collection of collectionsList.collections) {
       const collectionItemResponse = await got.get(
         `https://api.webflow.com/beta/collections/${collection.id}`,
         {
-          responseType: "json",
+          // responseType: "json",
           headers: {
             "content-type": "application/json",
-            Authorization: `Bearer ${userSiteInfo.access_token}`,
+            Authorization: `Bearer ${userSiteInfo?.access_token}`,
           },
         }
       );
 
-      const collectionDetail = collectionItemResponse.body;
+      const collectionDetail: any = collectionItemResponse.body;
       const imageFields = collectionDetail.fields
-        .filter((e) => e.type === "Image" || e.type === "MultiImage")
-        .map((item) => item.slug);
+        .filter((e: any) => e.type === "Image" || e.type === "MultiImage")
+        .map((item: any) => item.slug);
 
-      const collectionItemsResponse = await got.get(
+      const collectionItemsResponse: any = await got.get(
         `https://api.webflow.com/beta/collections/${collection.id}/items`,
         {
-          responseType: "json",
+          // responseType: "json",
           headers: {
             "content-type": "application/json",
-            Authorization: `Bearer ${userSiteInfo.access_token}`,
+            Authorization: `Bearer ${userSiteInfo?.access_token}`,
           },
         }
       );
@@ -67,7 +67,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const collectionItems = collectionItemsResponse.body.items;
       // console.log("Collection Items >>", collectionItems);
       //item_id, field_id & url
-      const finalObj = { collectionName: collectionDetail.displayName };
+      const finalObj: any = { collectionName: collectionDetail.displayName };
       let imgs = [];
       for (let item of collectionItems) {
         for (let imageField of imageFields) {

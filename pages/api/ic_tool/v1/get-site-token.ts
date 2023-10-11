@@ -42,7 +42,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       `https://api.webflow.com/oauth/access_token`,
       options
     );
-    const authData = authTokenResponse.body;
+    const authData: any = authTokenResponse.body;
     console.log("Oauth Response ::", authData);
     // <!--- This will be moved to an event based flow or SSE
     //get sites (move this into helper function)
@@ -51,9 +51,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         "content-type": "application/json",
         Authorization: `Bearer ${authData.access_token}`,
       },
-      responseType: "json",
+      // responseType: "json",
     });
-    const sitesData = sitesResponse.body;
+    const sitesData: any = sitesResponse.body;
     console.log("Sites::", sitesData.sites);
     /* const sitesWithToken = sitesData.sites.map((site) => ({
       ...site,
@@ -86,11 +86,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
     }
     // ---!>
-    const sites = sitesData.sites.map(({ id, displayName, previewUrl }) => ({
-      displayName,
-      previewUrl,
-      id,
-    }));
+    const sites = sitesData.sites.map(
+      ({ id, displayName, previewUrl }: any) => ({
+        displayName,
+        previewUrl,
+        id,
+      })
+    );
 
     if (authTokenResponse.statusCode === 200) {
       res
