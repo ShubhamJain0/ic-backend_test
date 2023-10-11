@@ -9,11 +9,11 @@ const logFormat = winston.format.combine(
 
 const logger = winston.createLogger({
   level: "error",
-  format: logFormat,
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: "logs/error.log", level: "error" }), // Log errors to a file
-  ],
+  // format: logFormat,
+  // transports: [
+  //   new winston.transports.Console(),
+  //   new winston.transports.File({ filename: "logs/error.log", level: "error" }), // Log errors to a file
+  // ],
 });
 
 export default logger;
