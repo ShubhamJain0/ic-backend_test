@@ -1,4 +1,4 @@
-import logger from "./logger";
+// import logger from "./logger";
 
 export const formatError = (
   status: number,
@@ -13,6 +13,6 @@ export const formatError = (
     cause: error?.message,
   };
   console.error(`Error: ${errSource} ---->`, error);
-  logger.error(`${errSource} ---->`, error);
+  // logger.error(`${errSource} ---->`, error);
   return err;
 };
