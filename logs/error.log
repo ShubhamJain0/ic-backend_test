@@ -1,0 +1,11 @@
+2023-10-04T13:24:25.903Z - error: Login User Client network socket disconnected before secure TLS connection was established
+2023-10-04T13:27:41.981Z - error: Login User ----> Client network socket disconnected before secure TLS connection was established
+2023-10-05T12:38:54.466Z - error: Google OAuth ----> Client network socket disconnected before secure TLS connection was established
+2023-10-05T12:40:38.027Z - error: Google OAuth ----> Client network socket disconnected before secure TLS connection was established
+2023-10-07T07:57:50.500Z - error: Get Site Token ----> Client network socket disconnected before secure TLS connection was established
+2023-10-07T08:00:06.904Z - error: Get Site Token ----> Response code 400 (Bad Request)
+2023-10-07T08:19:48.245Z - error: User Registration ----> Client network socket disconnected before secure TLS connection was established
+2023-10-07T08:20:09.973Z - error: User Registration ----> Client network socket disconnected before secure TLS connection was established
+2023-10-07T08:44:24.214Z - error: Get Site Token ----> Response code 400 (Bad Request)
+2023-10-07T08:45:19.651Z - error: Get Site Token ----> Response code 400 (Bad Request)
+2023-10-07T08:51:48.845Z - error: Get Site Token ----> Response code 400 (Bad Request)
