@@ -5,7 +5,16 @@ interface Request extends NextRequest {
   user_id?: string;
 }
 
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
 export const middleware = async (req: Request) => {
+  if (req.method === "OPTIONS") {
+    return NextResponse.json({}, { headers: corsHeaders });
+  }
   const authToken = req.headers.get("authorization") || "";
 
   if (!authToken) {
@@ -19,6 +28,10 @@ export const middleware = async (req: Request) => {
   }
 
   const res = NextResponse.next();
+  Object.entries(corsHeaders).forEach(([key, value]) => {
+    res.headers.append(key, value);
+  });
+
   //Set user_id header
   res.headers.set("user_id", isVerifiedToken.id);
 
@@ -29,8 +42,7 @@ export const middleware = async (req: Request) => {
 export const config = {
   matcher: [
     "/api/ic_tool/v1/get-users/",
-    "/api/ic_tool/v1/get-all-cmsImages/",
-    "/api/ic_tool/v1/get-all-cmsImages/",
-    "/api/hello-world/",
+    "/api/ic_tool/v1/get-user-details/",
+    "/api/ic_tool/v1/resend-email/",
   ],
 };

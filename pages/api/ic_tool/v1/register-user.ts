@@ -4,6 +4,11 @@ import { checkIfEmailExist, hashPassword } from "../../../../lib/helpers";
 import NextCors from "nextjs-cors";
 import { generateJWTToken } from "../../../../lib/helpers/jwt";
 import { formatError } from "../../../../lib/helpers/errors";
+import { sendEmail } from "../../../../lib/helpers/mailchimp";
+import { SignJWT } from "jose";
+
+const jwtSecret = process.env.JWT_SECRET_KEY;
+const frontendUrl = process.env.FRONTEND_URL;
 
 //@ToDo: Add auth token system
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -37,13 +42,26 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
     //@ToDo: do data validtion
 
+    //hash password
     const hashedPassword = await hashPassword(password);
+
+    //Generate verification token which will be used to verify user
+    const iat = Math.floor(Date.now() / 1000);
+    const expiryTime = iat + 24 * 60 * 60; // 1 day validity
+    let verificationToken = await new SignJWT({ email: email })
+      .setProtectedHeader({ alg: "HS256", typ: "JWT" })
+      .setExpirationTime(expiryTime)
+      .setIssuedAt(iat)
+      .setNotBefore(iat)
+      .sign(new TextEncoder().encode(jwtSecret as string));
 
     const newUser = await db.insertOne({
       name,
       email,
       company,
       password: hashedPassword,
+      isVerified: false,
+      verificationToken,
     });
 
     let authTokens;
@@ -51,11 +69,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       authTokens = await generateJWTToken({
         id: newUser.insertedId.id.toString("hex"),
       });
+      await sendEmail({
+        subject: "Verify Email",
+        text: `${frontendUrl}?verify_email=${verificationToken}`,
+        to_email: `${email}`,
+      });
     }
 
     return res.status(201).json({
       message: "New user created",
-      payload: { name, email, company, ...authTokens },
+      payload: { name, email, company, ...authTokens, isVerified: false },
     });
   } catch (e: any) {
     const errResp = formatError(

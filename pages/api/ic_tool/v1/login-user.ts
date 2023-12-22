@@ -45,7 +45,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(200).json({
       message: "Login Successful",
-      payload: { name: getUser?.name, email: getUser?.email, ...authTokens },
+      payload: {
+        name: getUser?.name,
+        email: getUser?.email,
+        ...authTokens,
+        isVerified: getUser?.isVerified,
+      },
     });
   } catch (e: any) {
     const errResp = formatError(500, "Something went wrong", "Login User", e);

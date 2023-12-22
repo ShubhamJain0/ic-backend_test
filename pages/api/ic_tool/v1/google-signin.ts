@@ -38,6 +38,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const newUser = await db.insertOne({
         name: gUser?.name,
         email: gUser?.email,
+        isVerified: true,
         password: hashedPassword,
       });
       if (newUser.acknowledged) {
@@ -52,6 +53,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           name: gUser?.name,
           email: gUser?.email,
           ...authTokens,
+          isVerified: true,
         },
       });
     } else {
@@ -66,6 +68,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           name: gUser?.name,
           email: gUser?.email,
           ...authTokens,
+          isVerified: true,
         },
       });
     }
