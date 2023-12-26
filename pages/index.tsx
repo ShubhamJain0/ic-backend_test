@@ -1,20 +1,20 @@
-import Head from 'next/head'
-import clientPromise from '../lib/mongodb'
-import type { InferGetServerSidePropsType, GetServerSideProps } from 'next'
+import Head from "next/head";
+import clientPromise from "../lib/mongodb";
+import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
 
 type ConnectionStatus = {
-  isConnected: boolean
-}
+  isConnected: boolean;
+};
 
 export const getServerSideProps: GetServerSideProps<
   ConnectionStatus
 > = async () => {
   try {
-   // await clientPromise
-   const client = await clientPromise;
-   const db = client.db('tc_db').collection('users') 
-   const users = await db.find({}).toArray()
-   // `await clientPromise` will use the default database passed in the MONGODB_URI
+    // await clientPromise
+    const client = await clientPromise;
+    const db = client.db("tc_db").collection("users");
+    const users = await db.find({}).toArray();
+    // `await clientPromise` will use the default database passed in the MONGODB_URI
     // However you can use another database (e.g. myDatabase) by replacing the `await clientPromise` with the following code:
     //
     // `const client = await clientPromise`
@@ -22,22 +22,25 @@ export const getServerSideProps: GetServerSideProps<
     //
     // Then you can execute queries against your database like so:
     // db.find({}) or any of the MongoDB Node Driver commands
-    console.log('users', users)
-    const updatedUsers = users.map(({name, email, uuid})=>({name, email, uuid}))
+    console.log("users", users);
+    const updatedUsers = users.map(({ name, email, uuid }) => ({
+      name,
+      email,
+      uuid,
+    }));
     return {
-      props: { isConnected: true, users:updatedUsers },
-    }
+      props: { isConnected: true, users: updatedUsers },
+    };
   } catch (e) {
-    console.error(e)
+    console.error(e);
     return {
       props: { isConnected: false },
-    }
+    };
   }
-}
+};
 
 export default function Home({
   isConnected,
-  users
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <div className="container">
@@ -55,12 +58,10 @@ export default function Home({
           <h2 className="subtitle">You are connected to MongoDB</h2>
         ) : (
           <h2 className="subtitle">
-            You are NOT connected to MongoDB. Check the <code>README.md</code>{' '}
+            You are NOT connected to MongoDB. Check the <code>README.md</code>{" "}
             for instructions.
           </h2>
         )}
-
-
 
         <p className="description">
           Get started by editing <code>pages/index.js</code>
@@ -68,22 +69,18 @@ export default function Home({
 
         <div>
           <h2>Available users</h2>
-          {users.map(item =>{
+          {/* {users.map((item: any) =>{
             return(
               <span id={item.uuid}>
                <span style={{display:'flex', alignItems:'center', gap:10}}><p>Name:</p>  <b>{item.name}</b> </span>
               <span style={{display:'flex', alignItems:'center', gap:10}}><p>Email:</p>  <b>{item.email}</b> </span>
               </span>
             )
-          })}
+          })} */}
         </div>
-
-       
       </main>
 
-      <footer>
-       
-      </footer>
+      <footer></footer>
 
       <style jsx>{`
         .container {
@@ -235,5 +232,5 @@ export default function Home({
         }
       `}</style>
     </div>
-  )
+  );
 }
