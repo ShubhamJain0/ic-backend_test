@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import { ObjectId } from "mongodb";
 
-export const checkIfEmailExist = async (db, email: string) => {
+export const checkIfEmailExist = async (db: any, email: string) => {
   let exists = false;
   const matchEmail = await db.findOne({ email }, { _id: 0 });
   console.log("Matching Email Found", matchEmail);
