@@ -11,7 +11,7 @@ interface IMailChimp {
 
 interface IMailChimpTemplate {
   subject: string;
-  text: string;
+  text?: string;
   to_email: string;
   template_name: string;
   template_content: Array<{

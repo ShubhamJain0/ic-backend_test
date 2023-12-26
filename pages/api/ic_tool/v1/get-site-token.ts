@@ -49,12 +49,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const sitesResponse = await got.get("https://api.webflow.com/beta/sites", {
       headers: {
         "content-type": "application/json",
-        Authorization: `Bearer ${authData.access_token}`,
+        Authorization: `Bearer ${authData?.access_token}`,
       },
       // responseType: "json",
     });
     const sitesData: any = sitesResponse.body;
-    console.log("Sites::", sitesData.sites);
+    console.log("Sites::", sitesData?.sites);
     /* const sitesWithToken = sitesData.sites.map((site) => ({
       ...site,
       access_token: authData.access_token,

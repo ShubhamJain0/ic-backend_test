@@ -19,7 +19,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     //fetch actual access_token for user_id and site_id form DB
     const client = await clientPromise;
     const db = client.db("tc_db").collection("user_sites");
-    const userSiteInfo = await db.findOne({ user_id: user_id });
+    const userSiteInfo: any = await db.findOne({ user_id: user_id });
     console.log("User Site Info", userSiteInfo);
 
     const collectionListResponse = await got.get(
@@ -28,13 +28,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         // responseType: "json",
         headers: {
           "content-type": "application/json",
-          Authorization: `Bearer ${userSiteInfo?.access_token}`,
+          Authorization: `Bearer ${userSiteInfo.access_token}`,
         },
       }
     );
 
     const collectionsList: any = collectionListResponse.body;
-    console.log("collections", collectionsList);
+    console.log("collections", collectionsList.collections);
     let collectionImageList = [];
     for (let collection of collectionsList.collections) {
       const collectionItemResponse = await got.get(
@@ -43,7 +43,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           // responseType: "json",
           headers: {
             "content-type": "application/json",
-            Authorization: `Bearer ${userSiteInfo?.access_token}`,
+            Authorization: `Bearer ${userSiteInfo.access_token}`,
           },
         }
       );
@@ -59,7 +59,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           // responseType: "json",
           headers: {
             "content-type": "application/json",
-            Authorization: `Bearer ${userSiteInfo?.access_token}`,
+            Authorization: `Bearer ${userSiteInfo.access_token}`,
           },
         }
       );

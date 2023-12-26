@@ -40,9 +40,5 @@ export const middleware = async (req: Request) => {
 
 //Add all the routes that need to be protected
 export const config = {
-  matcher: [
-    "/api/ic_tool/v1/get-users/",
-    "/api/ic_tool/v1/get-user-details/",
-    "/api/ic_tool/v1/resend-email/",
-  ],
+  matcher: ["/api/ic_tool/v1/get-users/", "/api/ic_tool/v1/resend-email/"],
 };

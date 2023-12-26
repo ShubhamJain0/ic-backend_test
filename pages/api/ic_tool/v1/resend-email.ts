@@ -4,7 +4,10 @@ import NextCors from "nextjs-cors";
 import { formatError } from "../../../../lib/helpers/errors";
 import { SignJWT, jwtVerify } from "jose";
 import { convertToBSON } from "../../../../lib/helpers";
-import { sendEmail } from "../../../../lib/helpers/mailchimp";
+import {
+  sendEmail,
+  sendEmailUsingTemplate,
+} from "../../../../lib/helpers/mailchimp";
 import { ObjectId } from "mongodb";
 
 const jwtSecret = process.env.JWT_SECRET_KEY;
@@ -55,10 +58,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       { $set: { verificationToken: verificationToken } }
     );
 
-    await sendEmail({
+    await sendEmailUsingTemplate({
       subject: "Verify Email",
-      text: `${frontendUrl}?verify_email=${verificationToken}`,
       to_email: `${email}`,
+      template_content: [
+        { name: "name", content: `${userExists?.name}` },
+        {
+          name: "link",
+          content: `<a href="${frontendUrl}?verify_email=${verificationToken}" style="text-decoration: none;color: white;">Verify Email</a>`,
+        },
+      ],
+      template_name: "Verify Email",
     });
 
     return res.status(200).json({

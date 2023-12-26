@@ -4,7 +4,10 @@ import { checkIfEmailExist, hashPassword } from "../../../../lib/helpers";
 import NextCors from "nextjs-cors";
 import { generateJWTToken } from "../../../../lib/helpers/jwt";
 import { formatError } from "../../../../lib/helpers/errors";
-import { sendEmail } from "../../../../lib/helpers/mailchimp";
+import {
+  sendEmail,
+  sendEmailUsingTemplate,
+} from "../../../../lib/helpers/mailchimp";
 import { SignJWT } from "jose";
 
 const jwtSecret = process.env.JWT_SECRET_KEY;
@@ -69,10 +72,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       authTokens = await generateJWTToken({
         id: newUser.insertedId.id.toString("hex"),
       });
-      await sendEmail({
+      await sendEmailUsingTemplate({
         subject: "Verify Email",
-        text: `${frontendUrl}?verify_email=${verificationToken}`,
         to_email: `${email}`,
+        template_content: [
+          { name: "name", content: `${name}` },
+          {
+            name: "link",
+            content: `<a href="${frontendUrl}?verify_email=${verificationToken}" style="text-decoration: none;color: white;">Verify Email</a>`,
+          },
+        ],
+        template_name: "Verify Email",
       });
     }
 
