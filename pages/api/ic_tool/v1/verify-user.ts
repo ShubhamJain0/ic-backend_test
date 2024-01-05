@@ -21,6 +21,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const client = await clientPromise;
     const db = client.db("tc_db").collection("users");
     const { token } = req.body;
+    const { user_id } = req.headers;
 
     let isTokenValid = await jwtVerify(
       token,
@@ -38,6 +39,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (!userExists) {
       return res.status(400).json({
         message: "User does not exist",
+      });
+    }
+
+    if (userExists._id.toString("hex") !== user_id) {
+      return res.status(400).json({
+        message: "Wrong user id",
       });
     }
 

@@ -53,12 +53,11 @@ export const sendEmailUsingTemplate = async (data: IMailChimpTemplate) => {
         },
       ],
     };
-    let resp = await mailchimp.messages.sendTemplate({
+    await mailchimp.messages.sendTemplate({
       message,
       template_name: data.template_name,
       template_content: data.template_content,
     });
-    console.log("MailChimp", resp);
   } catch (e) {
     throw new Error(`Failed to send mail : ${e}`);
   }

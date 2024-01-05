@@ -65,7 +65,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         { name: "name", content: `${userExists?.name}` },
         {
           name: "link",
-          content: `<a href="${frontendUrl}?verify_email=${verificationToken}" style="text-decoration: none;color: white;">Verify Email</a>`,
+          content: `<a href="${frontendUrl}?verify_email=${verificationToken}" class="btn">Verify Email</a>`,
         },
       ],
       template_name: "Verify Email",
