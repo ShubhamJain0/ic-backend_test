@@ -86,7 +86,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
     }
     // ---!>
-    const sites = sitesData.sites.map(
+    const sites = sitesData.sites?.map(
       ({ id, displayName, previewUrl }: any) => ({
         displayName,
         previewUrl,
