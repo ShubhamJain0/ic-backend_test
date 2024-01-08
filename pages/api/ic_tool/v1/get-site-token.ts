@@ -51,10 +51,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         "content-type": "application/json",
         Authorization: `Bearer ${authData?.access_token}`,
       },
-      // responseType: "json",
+      //@ts-ignore
+      responseType: "json",
     });
-    const sitesData: any = sitesResponse.body;
-    console.log("Sites::", sitesData?.sites);
+    const sitesData = sitesResponse.body;
+    console.log("Sites::", sitesData.sites);
     /* const sitesWithToken = sitesData.sites.map((site) => ({
       ...site,
       access_token: authData.access_token,
